@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/vue@next"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <title> Ntimpirantije Guenaël - Toujours là pour vous servir !</title>
+</head>
+<style>
+  .transition {opacity: 20% ;transition: opacity 1s;}
+  .transition:hover {opacity: 100%;}
+</style>
+<body style="background-color: grey;font-family: 'Montserrat', sans-serif;">
+  <div id="app">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container-fluid">
+          <a class="navbar-brand" >Ntimpirantije Guenaël</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link" @click="ChargerPage('acceuil')">Acceuil</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" @click="ChargerPage('CV')">CV</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" @click="ChargerPage('Contact')">Contact</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" @click="ChargerPage('Portfolio')">Portfolio</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+
+
+      <div v-if="Page == 'CV'">
+        <h2 style="text-align: center;padding: 3%;padding-top: 3%;">Curriculum Vitae</h2>
+        <img src="Images/pdpCV.jpg" class="rounded mx-auto d-block w-25 p-3">
+        <h3 style="text-align: center;padding: 3%;">Mes experiences</h3>
+        <div class="container border border-dark rounded transition" style="background-color: rgb(189, 189, 189);">
+          <div class="row border border-dark rounded" style="background-color: rgb(94, 94, 94);">
+              <div class="col-sm-3"><h4>Employeur</h4></div>
+              <div class="col-sm-3"><h4>Période</h4></div>
+              <div class="col-sm-3"><h4>Fonction</h4></div>
+              <div class="col-sm-3"><h4>Lieu</h4></div>
+          </div>
+          <div v-for="Experience,index in experiences" :key="Experience">
+            <div class="row">
+              <div class="col-sm-3"><h4>{{Experience.Employeur}}</h4></div>
+              <div class="col-sm-3"><h4>{{Experience.periode}}</h4></div>
+              <div class="col-sm-3"><h4>{{Experience.fonction}}</h4></div>
+              <div class="col-sm-3"><h4>{{Experience.lieu}}</h4></div>
+          </div>
+          </div>
+      </div>
+      <div style="text-align: center;padding-bottom: 3%;">
+        <h3 style="padding: 3%;" >Mes compétences</h3>
+        <div class="container border border-dark rounded transition" style="background-color: rgb(189, 189, 189);">
+          <h4 v-for="Skill,index in skill" :key="Skill">{{Skill}}</h4>
+        </div>
+      </div>
+      </div>
+      <div v-if="Page == 'Portfolio'" class="text-center">
+            <h1 style="padding:3%;">Portfolio</h1>
+            <div v-for="image,index in realisation" class="transition">
+              <a v-bind:href="image.source" target="_blank">
+                <input type="image" v-bind:src="image.source" style="height: 450px;">
+              </a>
+              <p class="container border border-dark rounded" style="background-color: rgb(189, 189, 189);padding: 3%;">{{image.description}}</p>
+            </div>
+      </div>
+
+
+
+      <div v-if="Page == 'Contact'" class="text-center" style="padding: 3%; margin: 0;position: absolute;top: 50%;left: 50%;-ms-transform: translate(-50%, -50%);transform: translate(-50%, -50%);">
+        <p class="container border border-dark rounded" style="background-color: rgb(189, 189, 189);">Vous pouvez toujours me contacter par e-mail aux adresses suivantes</p>
+        <div class="container">
+          <div class="row">
+              <div class="col-sm-6 transition">
+                <img src="Images/logo-outlook-new.png" class="rounded mx-auto d-block" style="height: 200px;">
+                <h3>Adresse Outlook</h3>
+                <button @click="MontrerMail(1)" class="boutonClass" v-if="BtnEmail1">Montrer l'adresse</button>
+                <div v-if="!BtnEmail1">
+                  <p class="container border border-dark rounded" style="background-color: rgb(189, 189, 189);">{{Email1}}</p>
+                </div>
+              </div>
+              <div class="col-sm-6 transition">
+                <img src="Images/gmail-logo-16.png" class="rounded mx-auto d-block" style="height: 200px;">
+                <h3>Adresse GMail</h3>
+                <button @click="MontrerMail(2)" class="boutonClass" v-if="BtnEmail2">Montrer l'adresse</button>
+                <div v-if="!BtnEmail2">
+                  <p class="container border border-dark rounded" style="background-color: rgb(189, 189, 189);">{{Email2}}</p>
+                </div>
+              </div>
+          </div>
+      </div>
+      </div>
+
+
+
+      <div v-if="Page == 'acceuil'" style="text-align: center;padding: 3%;">
+        <h1>Ntimpirantije Guenaël</h1>
+        <p>Bienvenue !</p>
+        <div class="container">
+          <div class="row transition">
+            <h2>A Propos de moi</h2>
+            <p>Je m'appelle Guenaël Ntimpirantije,Je suis étudiant en E-Business . Si vous voulez en apprendre d'avantage sur ce noble art,je vous invite à cliquer <a href="https://fr.wikipedia.org/wiki/E-business#:~:text=Le%20e%2Dbusiness%20(abr%C3%A9viation%20de,du%20commerce%20ou%20des%20affaires." target="_blank">ici</a></p>
+            <p>Je suis {{skill[1]}} et je {{skill[2]}}</p>
+            <button type="button" class="btn btn-secondary" @click="ChargerPage('CV')" >En savoir plus</button>
+          </div>
+          <div class="row transition">
+            <h2>Mon projet</h2>
+            <p>J'ai pour ambition de creer un jeu avec Unity "Tsubaki - The lost flower ".Il s'agira d'un jeu d'aventure soit a la 3ème personne , soit en 2D</p>
+            <img v-bind:src ="realisation[4].source">
+            <button type="button" class="btn btn-secondary" @click="ChargerPage('Portfolio')" >En savoir plus</button>
+          </div>
+      </div>
+
+      </div>
+  </div>
+  <script>
+    let app = Vue.createApp({
+      data(){
+              return {
+                  experiences : [
+                          {Employeur:"Multipharma",periode:"2014",fonction:"Ouvrier-Magasinier",lieu:"Bruxelle"},
+                          {Employeur:"Delhaize",periode:"2018-2019",fonction:"Magasinier,caissier",lieu:"Bruxelle"},
+                          {Employeur:"Colruyt",periode:"2019-2021",fonction:"Ouvrier-Magasinier",lieu:"Leuze-En-Hainaut"},
+                      ],
+                  skill :[
+                      "Parle français et anglais",
+                      "Capable de creer et designer des sites web",
+                      "Sait programmer en javascript,PHP,C#",
+                      "Capable de travailler en équipe","Rigoureux",
+                      "Possède le permis B"
+                      ],
+                  realisation : [
+                    {Image:"Premier projet blender" ,source:"Images/Blen.png",description : "Voici une de mes réalisations en 3d , modelisée grâce au logiciel Blender"},
+                    {Image:"Deuxième projet blender" ,source:"Images/Blender1.png",description : "Voici une deuxième réalisation en 3d , modelisée grâce au logiciel Blender"},
+                    {Image:"Guerrière-dragonne" ,source:"Images/Guerrière-Dragonne.png",description : "Il s'agit ici d'un des personnages de ma serie 'Tsubaki', dessiné sur photoshop"},
+                    {Image:"Shiro" ,source:"Images/Shiro_garde2.png",description : "Il s'agit ici du père du héros principal,Shiro (de ma serie 'Tsubaki')"},
+                    {Image:"Screen Unity" ,source:"Images/unity.png",description : "J'ai pour projet d'adapté ma série en jeux vidéo,grâce au moteur unity."},
+                    {Image:"Code Unity" ,source:"Images/unity2.png",description : "Le jeu est codé en C#,il s'agit ici que d'une fraction du code,permettant entre autre de charger les données des entre les différents niveau."},
+                  ],
+                  Email1 : "guenael-strikers4@hotmail.com",
+                  BtnEmail1 : true,
+                  Email2 : "guenaguena17@gmail.com",
+                  BtnEmail2 : true,
+                  Page : "acceuil"
+              }
+          },
+      methods :{
+          ChargerPage(page) {
+              this.Page = page
+              this.BtnEmail1 = true ;
+              this.BtnEmail2 = true ;
+          },
+
+          MontrerMail(Mail){
+              if (Mail==1)
+              {
+                if(this.BtnEmail1)
+                {
+                  this.BtnEmail1 = false;
+                }
+              }
+              else
+              {
+                if(this.BtnEmail2)
+                {
+                  this.BtnEmail2 = false;
+                }
+              }
+          }
+      }
+  }).mount('#app')
+  </script>
+</body>
+</html>
